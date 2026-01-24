@@ -4,41 +4,39 @@ import {test} from '@playwright/test'
 
 test.beforeEach(async ({page}) => {
     await page.goto('http://localhost:4200/')
-})
-
-//test.afterAll - not a good practice to use them in test
-
-//test.afterEach - same, can contrinute to the test flakiness
-
-//can skip by using test.describe.skip
-//or can run this test by using test.describe.only
-
-test.describe('suite1', () => {
-test.beforeEach(async ({page}) => {
     await page.getByText('Forms').click()
-})
-
-test('the first test', async({page}) => {
     await page.getByText('Form Layouts').click()
 })
 
-test('navigate to datepicker page', async({page}) => {
-    await page.getByText('Datepicker').click()
+test('Locator syntax rules', async({page}) => {
+    //how to find locator by Tag name
+    await page.locator('input').first().click()
+
+    //how to find locator by ID
+    page.locator('#inputEmail1')
+
+    //how to find locator by class value
+    page.locator('.shape-rectangle')
+
+    //how to find locator by attribute
+    page.locator('[placeholder="Email"]')
+
+    //how to find locator by entire class value
+    page.locator('[class="input-full-width size-medium status-basic shape-rectangle nb-transition"]')
+
+    //combine different selectors
+    page.locator('input[placeholder="Email"].shape-rectangle')
+
+    //find elements by XPath (but it is NOT RECOMMENDED). In Playwright documentation it says: "We recommend prioritizing 
+    // user-visible locators like text or accessible role instead of using XPath that is tied to the implementation and 
+    // easily break when the page changes."
+    page.locator('//*[@id="inputEmail1"]')
+
+    //find the element by partial text match
+    page.locator(':text("Using")')
+
+    //find the element by exact text match
+    page.locator(':text-is("Using the Grid")')
 })
 
-})
 
-test.describe('suite2', () => {
-test.beforeEach(async ({page}) => {
-    await page.getByText('Charts').click()
-})
-
-test('the first test', async({page}) => {
-    await page.getByText('Form Layouts').click()
-})
-
-test('navigate to datepicker page', async({page}) => {
-    await page.getByText('Datepicker').click()
-})
-
-})
