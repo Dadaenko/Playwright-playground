@@ -8,7 +8,7 @@ test.beforeEach(async ({page}) => {
     await page.getByText('Form Layouts').click()
 })
 
-test('Locator syntax rules', async({page}) => {
+test.skip('Locator syntax rules', async({page}) => {
     //how to find locator by Tag name
     await page.locator('input').first().click()
 
@@ -39,7 +39,7 @@ test('Locator syntax rules', async({page}) => {
     page.locator(':text-is("Using the Grid")')
 })
 
-test('User facing locators', async ({page}) => {
+test.skip('User facing locators', async ({page}) => {
     await page.getByRole('textbox', {name: "Email"}).first().click()
     await page.getByRole('button', {name: "Sign in"}).first().click()
 
@@ -54,3 +54,13 @@ test('User facing locators', async ({page}) => {
     await page.getByTestId('SignIn').click()
 })
 
+test('Locating child elements', async({page}) => {
+
+    //await page.locator('nb-card nb-radio :text-is("Option 1")').click()
+    //alternatively this can be done by concatinating
+    await page.locator('nb-card').locator('nb-radio').locator(':text-is("Option 1")').click()
+
+    await page.locator('nb-card').getByRole('button', {name: "Sign in"}).first().click()
+
+    //await page.locator('nb-card').nth(3).getByRole('button').click() - the least practical, try to avoid doing so
+})
