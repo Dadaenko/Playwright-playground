@@ -92,7 +92,47 @@ test('Reusing locators', async ({page}) => {
     await basicForm.getByRole('button', {name: "Submit"}).click()
 
     await expect(emailField).toHaveValue('test@test.com')
+})
 
+test('Extracting values', async ({page}) => {
 
+    //how to get a single text value
+      const basicForm = page.locator('nb-card').filter({hasText: "Basic form"})
+      const buttonText = await basicForm.locator('button').textContent()
+      expect(buttonText).toEqual('Submit')
+
+    //how to get all text values
+
+      const allRadioButtonsLabels =  await page.locator('nb-radio').allTextContents()
+      expect(allRadioButtonsLabels).toContain("Option 1")
+
+    //how to find the input value
+      
+    const emailField = basicForm.getByRole('textbox', {name: "Email"})
+    await emailField.fill('test@test.com')
+    const emailValue = await emailField.inputValue()
+    expect(emailValue).toEqual('test@test.com')
+
+    //how to get the value of the attribute
+    const placeHolderValue = await emailField.getAttribute('placeholder')
+    expect(placeHolderValue).toEqual('Email')
+})
+
+test('Assertions', async({page}) => {
+
+    //Generic assertions (don't wait)
+    //const value = 5
+   // expect(value).toEqual(5)
+
+    const basicFormButton = page.locator('nb-card').filter({hasText: "Basic form"}).locator('button')
+    const text = await basicFormButton.textContent()
+    expect(text).toEqual("Submit")
+
+    //Locator assertion (always wait for 5 seconds for the element to be available)
+    await expect(basicFormButton).toHaveText('Submit')
+
+    //Soft assertion (execution proceeds even if the assertion fails) - not a very good practice to use it
+    await expect.soft(basicFormButton).toHaveText('Submit5')
+    await basicFormButton.click()
 
 })
