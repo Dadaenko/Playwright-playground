@@ -136,3 +136,9 @@ test('Assertions', async({page}) => {
     await basicFormButton.click()
 
 })
+
+test('Auto-waiting', async ({page}) => {
+
+    //https://playwright.dev/docs/actionability 
+    
+})
