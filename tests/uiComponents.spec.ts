@@ -10,7 +10,7 @@ test.describe('Form Layouts page', () => {
         await page.getByText('Form Layouts').click()
     })
 
-    test('input fields', async ({ page }) => {
+    test('Input fields', async ({ page }) => {
         const usingTheGridEmailInput = page.locator('nb-card', {hasText: "Using the Grid"}).getByRole('textbox', {name: "Email"})
 
         await usingTheGridEmailInput.fill('test@test.com')
@@ -42,5 +42,24 @@ test.describe('Form Layouts page', () => {
     })
 })
 
+test('Checkboxes', async({page}) => {
+
+    await page.getByText('Modal & Overlays').click()
+    await page.getByText('Toastr').click()
+
+    await page.getByRole('checkbox', {name: "Hide on click"}).uncheck({force: true}) //if the box is already unchecked, it doesn't do anything.
+    await page.getByRole('checkbox', {name: "Prevent arising of duplicate toast"}).check({force: true}) //if the box is empty, it will check it. 
+
+    const allBoxes = page.getByRole('checkbox')
+    for(const box of await allBoxes.all()){
+        // await box.check({force: true})
+        // expect(await box.isChecked()).toBeTruthy // all the boxes are checked
+        
+        await box.uncheck({force: true})
+        expect(await box.isChecked()).toBeFalsy //all the boxes are unchecked
+        
+
+    }
+})
 
 
