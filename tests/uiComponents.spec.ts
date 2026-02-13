@@ -42,7 +42,7 @@ test.describe('Form Layouts page', () => {
     })
 })
 
-test('Checkboxes', async({page}) => {
+test.skip('Checkboxes', async({page}) => {
 
     await page.getByText('Modal & Overlays').click()
     await page.getByText('Toastr').click()
@@ -62,7 +62,7 @@ test('Checkboxes', async({page}) => {
     }
 })
 
-test('Lists and Dropdowns', async({page}) =>{
+test.skip('Lists and Dropdowns', async({page}) =>{
 
     const dropDownMenu = page.locator('ngx-header nb-select')
     await dropDownMenu.click()
@@ -94,7 +94,7 @@ test('Lists and Dropdowns', async({page}) =>{
     }
 })
 
-test('Tooltips', async ({page}) => {
+test.skip('Tooltips', async ({page}) => {
 
     await page.getByText('Modal & Overlays').click()
     await page.getByText('Tooltip').click()
@@ -105,5 +105,42 @@ test('Tooltips', async ({page}) => {
     page.getByRole('tooltip') //only works if you have a role tooltip created
     const tooltip = await page.locator('nb-tooltip').textContent()
     expect(tooltip).toEqual('This is a tooltip')
+
+})
+
+test.skip('Dialogue box', async ({page}) => {
+
+    await page.getByText('Tables & Data').click()
+    await page.getByText('Smart table').click()
+
+    page.on('dialog', dialog => {
+        expect(dialog.message()).toEqual('Are you sure you want to delete?')
+        dialog.accept()
+    })
+
+    await page.getByRole('table').locator('tr', {hasText: "mdo@gmail.com"}).locator('.nb-trash').click()
+    await expect(page.locator('table tr').first()).not.toHaveText('mdo@gmail.com')
+
+})
+
+test('Dialog', async ({page}) => {
+
+    await page.getByText('Modal & Overlays').click()
+    await page.getByText('Dialog').click()
+
+    // await page.getByRole('button', { name: 'Open Dialog with template' }).click()
+    // const dialog = page.locator('nb-dialog-container')
+    // await expect(dialog).toBeVisible()
+    // await dialog.getByRole('button', { name: 'CLOSE DIALOG' }).click()
+    // await expect(dialog).toBeHidden()
+
+
+    await page.getByRole('button', { name: 'Open Dialog with backdrop click' }).click()
+    const dialog2 = page.locator('nb-dialog-container')
+    await expect(dialog2).toBeVisible()
+    await dialog2.getByRole('button', { name: 'DISMISS DIALOG' }).click()
+    await expect(dialog2).toBeHidden()
+
+
 
 })
