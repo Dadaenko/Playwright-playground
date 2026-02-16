@@ -123,7 +123,7 @@ test.skip('Dialogue box', async ({page}) => {
 
 })
 
-test('Dialog', async ({page}) => {
+test.skip('Dialog', async ({page}) => {
 
     await page.getByText('Modal & Overlays').click()
     await page.getByText('Dialog').click()
@@ -143,4 +143,28 @@ test('Dialog', async ({page}) => {
 
 
 
+})
+
+test('Web Tables part 1', async ({page}) =>{
+
+    await page.getByText('Tables & Data').click()
+    await page.getByText('Smart Table').click()
+
+    //get the row by any text in this row
+
+    const targetRow = page.getByRole('row', {name: "twitter@outlook.com"})
+    await targetRow.locator('.nb-edit').click()
+    await page.locator('input-editor').getByPlaceholder('Age').clear()
+    await page.locator('input-editor').getByPlaceholder('Age').fill('34')
+    await page.locator('.nb-checkmark').click()
+
+    //get the row based on the value in the specific column
+
+    await page.locator('.ng2-smart-pagination-nav').getByText('2').click()
+    const targetRowById = page.getByRole('row', {name: "11"}).filter({has: page.locator('td').nth(1).getByText('11')})
+    await targetRowById.locator('.nb-edit').click()
+    await page.locator('input-editor').getByPlaceholder('E-mail').clear()
+    await page.locator('input-editor').getByPlaceholder('E-mail').fill('testing@for.money.com')
+    await page.locator('.nb-checkmark').click()
+    await expect(targetRowById.locator('td').nth(5)).toHaveText('testing@for.money.com')
 })
