@@ -197,7 +197,7 @@ test.skip('Web Tables part 2', async ({page}) => {
     }
 })
 
-test('Date picker, part 1', async ({page}) => {
+test.skip('Date picker, part 1', async ({page}) => {
 
     await page.getByText('Forms').click()
     await page.getByText('Datepicker').click()
@@ -209,6 +209,30 @@ test('Date picker, part 1', async ({page}) => {
     await expect(calendarInputField).toHaveValue('Feb 1, 2026')
 })
 
-test('Date picker, part 2', async ({page}) => {
-    
+test('Date picker, lesson 2 - with dynamic value', async ({page}) =>{
+
+    await page.getByText('Forms').click()
+    await page.getByText('Datepicker').click()
+
+    const calendarInputField = page.getByPlaceholder('Form Picker')
+    await calendarInputField.click()
+
+    let date = new Date()
+    date.setDate(date.getDate() +900)
+    const expectedDate = date.getDate().toString()
+    const expectedMonthShort = date.toLocaleString('En-US', {month: 'short'})
+    const expectedMonthLong = date.toLocaleString('En-US', {month: 'long'})
+    const expectedYear = date.getFullYear()
+    const dateToAssert = `${expectedMonthShort} ${expectedDate}, ${expectedYear}`
+
+    let calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent()
+    const expectedMonthAndYear = ` ${expectedMonthLong} ${expectedYear} `
+    while(!calendarMonthAndYear.includes(expectedMonthAndYear)){
+        await page.locator('nb-calendar-pageable-navigation [data-name="chevron-right"]').click()
+        calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent()
+
+    }
+
+    await page.locator('[class="day-cell ng-star-inserted"]').getByText(expectedDate, {exact: true}).click()
+    await expect(calendarInputField).toHaveValue(dateToAssert)
 })
