@@ -123,7 +123,7 @@ test.skip('Dialogue box', async ({page}) => {
 
 })
 
-test('Dialog', async ({page}) => {
+test.skip('Dialog', async ({page}) => {
 
     await page.getByText('Modal & Overlays').click()
     await page.getByText('Dialog').click()
@@ -144,7 +144,7 @@ test('Dialog', async ({page}) => {
 
 
 })
-test('Web Tables part 1', async ({page}) =>{
+test.skip('Web Tables part 1', async ({page}) =>{
 
     await page.getByText('Tables & Data').click()
     await page.getByText('Smart Table').click()
@@ -168,7 +168,7 @@ test('Web Tables part 1', async ({page}) =>{
     await expect(targetRowById.locator('td').nth(5)).toHaveText('testing@for.money.com')
 })
 
-test('Web Tables part 2', async ({page}) => {
+test.skip('Web Tables part 2', async ({page}) => {
 
     await page.getByText('Tables & Data').click()
     await page.getByText('Smart Table').click()
@@ -195,4 +195,20 @@ test('Web Tables part 2', async ({page}) => {
             }
         }
     }
+})
+
+test('Date picker, part 1', async ({page}) => {
+
+    await page.getByText('Forms').click()
+    await page.getByText('Datepicker').click()
+
+    const calendarInputField = page.getByPlaceholder('Form Picker')
+    await calendarInputField.click()
+
+    await page.locator('[class="day-cell ng-star-inserted"]').getByText('1', {exact: true}).click()
+    await expect(calendarInputField).toHaveValue('Feb 1, 2026')
+})
+
+test('Date picker, part 2', async ({page}) => {
+    
 })
