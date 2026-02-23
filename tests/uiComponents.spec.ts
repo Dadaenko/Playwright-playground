@@ -209,7 +209,7 @@ test.skip('Date picker, part 1', async ({page}) => {
     await expect(calendarInputField).toHaveValue('Feb 1, 2026')
 })
 
-test('Date picker, lesson 2 - with dynamic value', async ({page}) =>{
+test.skip('Date picker, lesson 2 - with dynamic value', async ({page}) =>{
 
     await page.getByText('Forms').click()
     await page.getByText('Datepicker').click()
@@ -235,4 +235,33 @@ test('Date picker, lesson 2 - with dynamic value', async ({page}) =>{
 
     await page.locator('[class="day-cell ng-star-inserted"]').getByText(expectedDate, {exact: true}).click()
     await expect(calendarInputField).toHaveValue(dateToAssert)
+})
+
+test('Sliders', async ({page}) => {
+
+    //Update slider attribute
+    const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle')
+    await tempGauge.evaluate( node => {
+        node.setAttribute('cx', '230.623')
+        node.setAttribute('cy', '230.623')
+    })
+
+    await tempGauge.click()
+
+    //Mouse movement simulation
+
+    const tempBox = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger')
+    await tempBox.scrollIntoViewIfNeeded()
+
+    const box = await tempBox.boundingBox()
+    const x = box.x + box.width / 2 //getting the center of the bounding box
+    const y = box.y + box.height / 2 //so that you can simulate the mouse movement
+    await page.mouse.move(x, y)
+    await page.mouse.down()
+    await page.mouse.move(x + 100, y) //away or closer to center
+    await page.mouse.move(x+100, y+100)
+    await page.mouse.up
+    await expect(tempBox).toContainText('30')
+
+
 })
