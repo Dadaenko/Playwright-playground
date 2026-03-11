@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test'
-import {NavigationPage} from '../page-object/navigationPage'
-import { formLayoutPage } from '../page-object/formLayoutsPage'
-import { DatepickerPage } from '../page-object/datepickerPage'
+import { PageManager } from '../page-object/pageManager'
 
 test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:4200/')
@@ -9,29 +7,25 @@ test.beforeEach(async ({ page }) => {
 
 test('Navigate to form page', async ({page}) =>{
 
-    const navigateTo = new NavigationPage(page)
-    await navigateTo.formLayoutPage()
-    await navigateTo.datepickerPage()
-    await navigateTo.smartTablePage()
-    await navigateTo.toastrPage()
-    await navigateTo.tooltipPage()
+    const pm = new PageManager(page)
+    await pm.navigateTo().formLayoutPage()
+    await pm.navigateTo().datepickerPage()
+    await pm.navigateTo().smartTablePage()
+    await pm.navigateTo().toastrPage()
+    await pm.navigateTo().tooltipPage()
 
 })
 
 test('Parametrized methods', async ({page}) => {
-    const navigateTo = new NavigationPage(page)
-    const onformLayoutPage = new formLayoutPage(page)
-    const onDatepickerPage = new DatepickerPage(page)
+    
+    const pm = new PageManager(page)
 
-    await navigateTo.formLayoutPage()
-    await onformLayoutPage.submitUsingTheGridFormWithCredentialsAndSelectOption('testing@is.nope', 'dgfhdjslirbvls97468273', 'Option 2')
-
-    await navigateTo.formLayoutPage()
-    await onformLayoutPage.submitInlineFormWithNameEmailAndCheckbox('Samba Di Janeiro', 'amber@sambissimo.com', true)
-
-    await navigateTo.datepickerPage()
-    await onDatepickerPage.selectCommonDatePickerDateFromToday(31)
-
-    await onDatepickerPage.selectDatepickerWithRangeFromToday(25, 35)
+    await pm.navigateTo().formLayoutPage()
+    await pm.onFormLayoutsPage().submitUsingTheGridFormWithCredentialsAndSelectOption('testing@is.nope', 'dgfhdjslirbvls97468273', 'Option 2')
+    await pm.navigateTo().formLayoutPage()
+    await pm.onFormLayoutsPage().submitInlineFormWithNameEmailAndCheckbox('Samba Di Janeiro', 'amber@sambissimo.com', true)
+    await pm.navigateTo().datepickerPage()
+    await pm.onDatepickerPage().selectCommonDatePickerDateFromToday(31)
+    await pm.onDatepickerPage().selectDatepickerWithRangeFromToday(25, 35)
 
 })
