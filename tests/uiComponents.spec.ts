@@ -42,7 +42,7 @@ test.describe('Form Layouts page', () => {
     })
 })
 
-test.skip('Checkboxes', async({page}) => {
+test('Checkboxes', async({page}) => {
 
     await page.getByText('Modal & Overlays').click()
     await page.getByText('Toastr').click()
@@ -62,7 +62,7 @@ test.skip('Checkboxes', async({page}) => {
     }
 })
 
-test.skip('Lists and Dropdowns', async({page}) =>{
+test('Lists and Dropdowns', async({page}) =>{
 
     const dropDownMenu = page.locator('ngx-header nb-select')
     await dropDownMenu.click()
@@ -94,7 +94,7 @@ test.skip('Lists and Dropdowns', async({page}) =>{
     }
 })
 
-test.skip('Tooltips', async ({page}) => {
+test('Tooltips', async ({page}) => {
 
     await page.getByText('Modal & Overlays').click()
     await page.getByText('Tooltip').click()
@@ -108,7 +108,7 @@ test.skip('Tooltips', async ({page}) => {
 
 })
 
-test.skip('Dialogue box', async ({page}) => {
+test('Dialogue box', async ({page}) => {
 
     await page.getByText('Tables & Data').click()
     await page.getByText('Smart table').click()
@@ -123,7 +123,7 @@ test.skip('Dialogue box', async ({page}) => {
 
 })
 
-test.skip('Dialog', async ({page}) => {
+test('Dialog', async ({page}) => {
 
     await page.getByText('Modal & Overlays').click()
     await page.getByText('Dialog').click()
@@ -144,7 +144,7 @@ test.skip('Dialog', async ({page}) => {
 
 
 })
-test.skip('Web Tables part 1', async ({page}) =>{
+test('Web Tables part 1', async ({page}) =>{
 
     await page.getByText('Tables & Data').click()
     await page.getByText('Smart Table').click()
@@ -168,7 +168,7 @@ test.skip('Web Tables part 1', async ({page}) =>{
     await expect(targetRowById.locator('td').nth(5)).toHaveText('testing@for.money.com')
 })
 
-test.skip('Web Tables part 2', async ({page}) => {
+test('Web Tables part 2', async ({page}) => {
 
     await page.getByText('Tables & Data').click()
     await page.getByText('Smart Table').click()
@@ -197,19 +197,28 @@ test.skip('Web Tables part 2', async ({page}) => {
     }
 })
 
-test.skip('Date picker, part 1', async ({page}) => {
+test('Date picker, part 1', async ({page}) => {
 
     await page.getByText('Forms').click()
     await page.getByText('Datepicker').click()
 
-    const calendarInputField = page.getByPlaceholder('Form Picker')
-    await calendarInputField.click()
+  const calendarInputField = page.getByPlaceholder('Form Picker')
+  await calendarInputField.click()
 
-    await page.locator('[class="day-cell ng-star-inserted"]').getByText('1', {exact: true}).click()
-    await expect(calendarInputField).toHaveValue('Feb 1, 2026')
+  // Build expected date dynamically from today
+  const today = new Date()
+  const expectedDate = new Date(today.getFullYear(), today.getMonth(), 1)
+  const expectedValue = expectedDate.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  }) // e.g. "Mar 1, 2026"
+
+  await page.locator('[class="day-cell ng-star-inserted"]').getByText('1', {exact: true}).click()
+  await expect(calendarInputField).toHaveValue(expectedValue)
 })
 
-test.skip('Date picker, lesson 2 - with dynamic value', async ({page}) =>{
+test('Date picker, lesson 2 - with dynamic value', async ({page}) =>{
 
     await page.getByText('Forms').click()
     await page.getByText('Datepicker').click()
