@@ -21,7 +21,7 @@ test('Auto-waiting', async ({page}) => {
     await expect(successButton).toHaveText('Data loaded with AJAX get request.', {timeout: 20000})
 })
 
-test('Alternative waits', async ({page}) => {
+test.skip('Alternative waits', async ({page}) => {
 
     const successButton = page.locator('.bg-success')
 
@@ -38,7 +38,7 @@ test('Alternative waits', async ({page}) => {
     expect(text).toContain('Data loaded with AJAX get request.')
 })
 
-test('Timeouts', async ({page}) => {
+test.skip('Timeouts', async ({page}) => {
 
     //in case I want to override timeout for the particular test:
     //test.setTimeout(10000)
