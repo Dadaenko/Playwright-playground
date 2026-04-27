@@ -30,6 +30,12 @@ export default defineConfig({
     // baseURL: 'http://localhost:3000',
     actionTimeout: 50000,
     navigationTimeout: 50000,
+    video: 'on',
+    //to record high quality video create an object:
+    // video: {
+    //        mode: 'on',
+    //        size: {width: 1920, height: 1080} 
+    // },
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
