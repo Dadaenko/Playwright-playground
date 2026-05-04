@@ -36,3 +36,5 @@ test('Parametrized methods', async ({page}) => {
     // await pm.onDatepickerPage().selectDatepickerWithRangeFromToday(25, 35)
 
 })
+
+//Made updates to the branches and now should be able to commit to only master branch. 
