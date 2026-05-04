@@ -1,5 +1,4 @@
 import { defineConfig, devices } from '@playwright/test';
-import type { TestOptions} from './test-options';
 
 /**
  * Read environment variables from file.
@@ -8,12 +7,11 @@ import type { TestOptions} from './test-options';
 // import dotenv from 'dotenv';
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
-require('dotenv').config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig<TestOptions>({
+export default defineConfig({
 
   testDir: './tests',
   /* Run tests in files in parallel */
@@ -29,8 +27,7 @@ export default defineConfig<TestOptions>({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: 'http://localhost:4200/',
-    globalsQaURL: 'https://www.globalsqa.com/demo-site/draganddrop/',
+    // baseURL: 'http://localhost:3000',
     actionTimeout: 50000,
     navigationTimeout: 50000,
     video: 'on',

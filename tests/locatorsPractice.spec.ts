@@ -2,7 +2,7 @@ import {test, expect} from '@playwright/test'
 import { timeout } from 'rxjs-compat/operator/timeout'
 
 test.beforeEach(async ({page}) => {
-    await page.goto('/')
+    await page.goto('http://localhost:4200/')
     await page.getByText('Forms').click()
     await page.getByText('Datepicker').click()
 })
