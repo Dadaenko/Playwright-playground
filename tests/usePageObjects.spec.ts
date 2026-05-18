@@ -17,7 +17,7 @@ test('Navigate to form page', async ({page}) =>{
 
 })
 
-test('Parametrized methods', async ({page}) => {
+test('Parametrized methods @smoke', async ({page}) => {
     
     const pm = new PageManager(page)
 
@@ -25,7 +25,7 @@ test('Parametrized methods', async ({page}) => {
     const randomEmail = `${randomFullName.replace(' ', '')}${faker.number.int(1000)}@test.com`
     await pm.navigateTo().formLayoutPage()
     await pm.onFormLayoutsPage().submitUsingTheGridFormWithCredentialsAndSelectOption('testing@is.nope', 'dgfhdjslirbvls97468273', 'Option 2')
-    await page.screenshot({path: 'screenshots/formsLayoutPage.png'}) //for the whole page
+    // await page.screenshot({path: 'screenshots/formsLayoutPage.png'}) //for the whole page
     // const buffer = await page.screenshot()
     // console.log(buffer.toString('base64')) 
     await pm.navigateTo().formLayoutPage()
