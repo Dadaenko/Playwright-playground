@@ -37,4 +37,10 @@ test('Parametrized methods @smoke', async ({page}) => {
 
 })
 
-//Made updates to the branches and now should be able to commit to only master branch. 
+test.only('Testing with Argos CI', async ({page}) =>{
+
+    const pm = new PageManager(page)
+    await pm.navigateTo().formLayoutPage()
+    await pm.navigateTo().datepickerPage()
+
+})
